@@ -26,6 +26,9 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+  protected $maxAttempts = 3;
+  protected $decayMinutes = 10;
+
     /**
      * Where to redirect users after login.
      *
@@ -46,6 +49,29 @@ class LoginController extends Controller
       public function login(Request $request){
           if ($request->isMethod('POST')){
             $data = $request->all();
+            //        Restrict wrong login attempt start
+            $this->incrementLoginAttempts($request);
+            $key = $this->throttleKey($request);
+            $rateLimiter = $this->limiter();
+
+            if ($this->hasTooManyLoginAttempts($request)) {
+              $attempts = $rateLimiter->attempts($key);
+//          return $attempts;
+              $rateLimiter->clear($key);
+              if ($attempts === 3) {
+                $this->decayMinutes = 10;
+              }
+              if ($attempts >= 5) {
+                $this->decayMinutes = 30;
+              }
+              for ($i = 0; $i < $attempts; $i++) {
+                $this->incrementLoginAttempts($request);
+              }
+              $this->fireLockoutEvent($request);
+              return $this->sendLockoutResponse($request);
+            }
+//        Restrict wrong login attempt end
+
 //        validation start
             $validator = Validator::make($data, [
               'email' => 'required|email',
@@ -60,13 +86,6 @@ class LoginController extends Controller
 //      validation end
 
             try {
-//              $user = User::where('email', $data['email'])->first();
-//              if($user->status == 1) {
-//                $expire = Carbon::now()->subDays(12);
-//                if($user->subscribe_at < $expire){
-//                  User::find(auth()->id())->update(['status'=> 0]);
-//                }
-//              }
               if (Auth::attempt(['email'=> $data['email'], 'password'=> $data['password']])) {
                 $user = User::find(auth()->id());
                 if($user->status == 1) {
