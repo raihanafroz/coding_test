@@ -51,11 +51,8 @@
                 <div class="panel panel-default">
                   <div class="panel-body">
 
-                    @if (Session::has('success'))
-                      <div class="alert alert-success text-center">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <p>{{ Session::get('success') }}</p>
-                      </div>
+                    @if(session()->has('status'))
+                      {!! session()->get('status') !!}
                     @endif
 
                     <form role="form" action="{{ route('payment') }}" method="post" class="validation"
@@ -103,7 +100,7 @@
 
                       <div class="row">
                         <div class="col-xs-12">
-                          <button class="btn btn-danger btn-lg btn-block" type="submit">Pay Now (₹100)</button>
+                          <button class="btn btn-danger btn-lg btn-block" type="submit">Pay Now ($10)</button>
                         </div>
                       </div>
 

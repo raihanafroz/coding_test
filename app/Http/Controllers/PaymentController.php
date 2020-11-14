@@ -45,11 +45,22 @@ class PaymentController extends Controller
 
         return redirect()->route('home');
       }
-      \Session::flash('warning', 'Payment not successful');
-      return back();
+      $status = '<div class="alert alert-warning alert-dismissible show" role="alert">
+                      <strong>Sorry!1! </strong> Payment not successful.
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>';
+      return redirect()->back()->with('status', $status)->withInput();
     }catch (\Exception $e){
-      \Session::flash('error', 'Something Went wrong');
-      return back();
+
+      $status = '<div class="alert alert-warning alert-dismissible show" role="alert">
+                      <strong>Sorry!1! </strong> Something went wrong.
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>';
+      return redirect()->back()->with('status', $status)->withInput();
     }
   }
 }
