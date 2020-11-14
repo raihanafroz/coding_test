@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/stripe-payment', 'PaymentController@view')->name('stripe.payment');
+Route::post('/payment', 'PaymentController@payment')->name('payment');
+Route::get('/home', 'HomeController@index')->name('home');
