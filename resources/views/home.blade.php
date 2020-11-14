@@ -29,8 +29,11 @@
                         </tr>
                         </tbody>
                     </table>
+                        @if(Auth::user()->status != 0)
+                            <a href="{{ route('payments') }}" class="btn btn-success">Payments</a>
+                        @endif
                         @if(Auth::user()->status!=1)
-                            <button class="btn btn-success">Activate</button>
+                            <a href="{{ route('stripe.payment') }}" class="btn btn-success">Activate</a>
                         @endif
                 </div>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Payment;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('is_subscriber');
     }
 
     /**
@@ -21,8 +22,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function payments()
     {
-        return view('home');
+        $payments = Payment::where('user_id', auth()->id())->paginate(1);
+//        return $payments;
+        return view('payments', compact('payments'));
     }
 }
