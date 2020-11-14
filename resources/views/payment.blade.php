@@ -26,6 +26,9 @@
       vertical-align: middle;
       width: 55%;
     }
+    .hide{
+      display: none;
+    }
   </style>
 @endsection
 
@@ -92,11 +95,11 @@
                         </div>
                       </div>
 
-                      {{--<div class='form-row row'>--}}
-                      {{--<div class='col-md-12 hide error form-group'>--}}
-                      {{--<div class='alert-danger alert'>Fix the errors before you begin.</div>--}}
-                      {{--</div>--}}
-                      {{--</div>--}}
+                      <div class='form-row row'>
+                        <div class='col-md-12 hide error form-group'>
+                          <div class='alert-danger alert'>Fix the errors before you begin.</div>
+                        </div>
+                      </div>
 
                       <div class="row">
                         <div class="col-xs-12">
@@ -121,20 +124,20 @@
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
   <script type="text/javascript">
-    $(function() {
-      var $form         = $(".validation");
-      $('form.validation').bind('submit', function(e) {
-        var $form         = $(".validation"),
+    $(function () {
+      var $form = $(".validation");
+      $('form.validation').bind('submit', function (e) {
+        var $form = $(".validation"),
           inputVal = ['input[type=email]', 'input[type=password]',
             'input[type=text]', 'input[type=file]',
             'textarea'].join(', '),
-          $inputs       = $form.find('.required').find(inputVal),
+          $inputs = $form.find('.required').find(inputVal),
           $errorStatus = $form.find('div.error'),
-          valid         = true;
+          valid = true;
         $errorStatus.addClass('hide');
 
         $('.has-error').removeClass('has-error');
-        $inputs.each(function(i, el) {
+        $inputs.each(function (i, el) {
           var $input = $(el);
           if ($input.val() === '') {
             $input.parent().addClass('has-error');

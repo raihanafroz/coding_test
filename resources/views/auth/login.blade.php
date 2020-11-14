@@ -8,6 +8,9 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    @if(session()->has('status'))
+                        {!! session()->get('status') !!}
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                     @csrf
                         <div class="form-group row">

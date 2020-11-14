@@ -11,11 +11,15 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
+
+Route::match(['get', 'post'], '/login', 'Auth\LoginController@login')->name('login');
+
 
 Route::get('/home', function (){
   return view('home');
